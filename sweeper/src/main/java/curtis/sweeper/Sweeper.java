@@ -30,14 +30,14 @@ public class Sweeper extends Frame {
         
         // super makes frameText accessible anywhere
         super(frameText);
-        String mine = "1";
+        String mine;
         
         // init the mines
         Random rand = new Random();
         int mineIndex[] = new int[MINES];
         for (int i = 0; i<MINES;) {
             int index = rand.nextInt(mines.length);
-            if (mines[index] != "*") {
+            if (!"*".equals(mines[index])) {
                 mines[index] = "*";
                 mineIndex[i] = index;
                 i++;
@@ -46,7 +46,7 @@ public class Sweeper extends Frame {
         
         // all other squares to 0
         for (int i = 0; i<mines.length; i++) {
-            if (mines[i] != "*") {
+            if (!"*".equals(mines[i])) {
                 mines[i] = "0";
             }
         }
@@ -58,13 +58,13 @@ public class Sweeper extends Frame {
             // increment horizontal adjacents
             // left
             if (mineSpot%GAME_WIDTH != 0) {
-                if (mines[mineSpot - 1] != "*") {
+                if (!"*".equals(mines[mineSpot - 1])) {
                     mines[mineSpot - 1] = Integer.toString(Integer.parseInt(mines[mineSpot - 1]) + 1);
                 }
             }
             // right
             if (mineSpot%GAME_WIDTH != GAME_WIDTH - 1) {
-                if (mines[mineSpot + 1] != "*") {
+                if (!"*".equals(mines[mineSpot + 1])) {
                     mines[mineSpot + 1] = Integer.toString(Integer.parseInt(mines[mineSpot + 1]) + 1);
                 }
             }
@@ -72,13 +72,13 @@ public class Sweeper extends Frame {
             // increment vertical adjacents
             // up
             if (mineSpot > GAME_WIDTH - 1) {
-                if (mines[mineSpot - GAME_WIDTH] != "*") {
+                if (!"*".equals(mines[mineSpot - GAME_WIDTH])) {
                     mines[mineSpot - GAME_WIDTH] = Integer.toString(Integer.parseInt(mines[mineSpot - GAME_WIDTH]) + 1);
                 }
             }
             // down
             if (mineSpot < GAME_WIDTH * (GAME_HEIGHT-1)) {
-                if (mines[mineSpot + GAME_WIDTH] != "*") {
+                if (!"*".equals(mines[mineSpot + GAME_WIDTH])) {
                     mines[mineSpot + GAME_WIDTH] = Integer.toString(Integer.parseInt(mines[mineSpot + GAME_WIDTH]) + 1);
                 }
             }
@@ -86,25 +86,25 @@ public class Sweeper extends Frame {
             // increment diagonals
             // up and left
             if (mineSpot > GAME_WIDTH - 1 && mineSpot%GAME_WIDTH != 0) {
-                if (mines[mineSpot - GAME_WIDTH - 1] != "*") {
+                if (!"*".equals(mines[mineSpot - GAME_WIDTH - 1])) {
                     mines[mineSpot - GAME_WIDTH - 1] = Integer.toString(Integer.parseInt(mines[mineSpot - GAME_WIDTH - 1]) + 1);
                 }
             }
             // up and right
             if (mineSpot > GAME_WIDTH - 1 && mineSpot%GAME_WIDTH != GAME_WIDTH - 1) {
-                if (mines[mineSpot - GAME_WIDTH + 1] != "*") {
+                if (!"*".equals(mines[mineSpot - GAME_WIDTH + 1])) {
                     mines[mineSpot - GAME_WIDTH + 1] = Integer.toString(Integer.parseInt(mines[mineSpot - GAME_WIDTH + 1]) + 1);
                 }
             }
              // down and left
             if (mineSpot < GAME_WIDTH * (GAME_HEIGHT-1) && mineSpot%GAME_WIDTH != 0) {
-                if (mines[mineSpot + GAME_WIDTH - 1] != "*") {
+                if (!"*".equals(mines[mineSpot + GAME_WIDTH - 1])) {
                     mines[mineSpot + GAME_WIDTH - 1] = Integer.toString(Integer.parseInt(mines[mineSpot + GAME_WIDTH - 1]) + 1);
                 }
             }
             // down and right
             if (mineSpot < GAME_WIDTH * (GAME_HEIGHT-1) && mineSpot%GAME_WIDTH != GAME_WIDTH - 1) {
-                if (mines[mineSpot + GAME_WIDTH + 1] != "*") {
+                if (!"*".equals(mines[mineSpot + GAME_WIDTH + 1])) {
                     mines[mineSpot + GAME_WIDTH + 1] = Integer.toString(Integer.parseInt(mines[mineSpot + GAME_WIDTH + 1]) + 1);
                 }
             }
@@ -188,10 +188,10 @@ class SweeperButton extends Button implements MouseListener {
     @Override
     public void mouseClicked(MouseEvent e) {
         // button == 3 is rightclick
-        if (e.getButton() == 3 && this.getLabel() == "") {
+        if (e.getButton() == 3 && "".equals(this.getLabel())) {
             // flag button
             this.setLabel("|>");
-        } else if (e.getButton() == 3 && this.getLabel() == "|>") {
+        } else if (e.getButton() == 3 && "|>".equals(this.getLabel())) {
             //unflag
             this.setLabel("");
         } else {
