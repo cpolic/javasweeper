@@ -25,6 +25,9 @@ public class Sweeper extends Frame {
     SweeperButton mineButtons[] = new SweeperButton[GAME_HEIGHT*GAME_WIDTH];
     String mines[] = new String[GAME_HEIGHT*GAME_WIDTH];
     
+    // will be useful for victory checking that this is non temporary
+    int mineIndex[] = new int[MINES];
+    
     // constructor
     Sweeper(String frameText) {
         
@@ -34,7 +37,6 @@ public class Sweeper extends Frame {
         
         // init the mines
         Random rand = new Random();
-        int mineIndex[] = new int[MINES];
         for (int i = 0; i<MINES;) {
             int index = rand.nextInt(mines.length);
             if (!"*".equals(mines[index])) {
@@ -161,6 +163,27 @@ public class Sweeper extends Frame {
         setLayout(null);
         setSize(FRAME_WIDTH, FRAME_HEIGHT);
         setVisible(true);
+    }
+    
+    public boolean checkVictory() {
+        // return false for an unflagged mine
+        for (int i = 0; i<mineIndex.length; i++) {
+            if (!mineButtons[mineIndex[i]].getLabel().equals("|>")) {
+                return false;
+            }
+        }
+        // return true if flag count matches mine count else false
+        int check = 0;
+        for (int i = 0; i<mineButtons.length; i++) {
+            if (mineButtons[i].getLabel().equals("|>")) {
+                check++;
+            }
+        }
+        if (check == MINES) {
+            return true;
+        } else {
+            return false;
+        }
     }
     
     // runtime
