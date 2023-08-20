@@ -143,7 +143,7 @@ public class Sweeper extends Frame {
                 // this passes the button its mine/number
                 int index = i * GAME_WIDTH + j;
                 mine = mines[index];
-                mineButtons[i*GAME_WIDTH+j] = new SweeperButton(tempX,tempY,BUTTON_WIDTH,BUTTON_HEIGHT,"",mine, this);
+                mineButtons[i*GAME_WIDTH+j] = new SweeperButton(tempX,tempY,BUTTON_WIDTH,BUTTON_HEIGHT,"",mine, this, index);
                 tempX += BUTTON_WIDTH;
             }
             tempY += BUTTON_HEIGHT;
@@ -174,29 +174,121 @@ public class Sweeper extends Frame {
 class SweeperButton extends Button implements MouseListener {
     Sweeper sw;
     String mine;
+    int index;
     
     // constructor
-    SweeperButton(int x, int y, int width, int height, String cap, String min, Sweeper sws) {
+    SweeperButton(int x, int y, int width, int height, String cap, String min, Sweeper sws, int index) {
         super(cap);
         setBounds(x,y,width,height);
+        this.index = index;
         this.sw = sws;
         this.sw.add(this);
         this.mine = min;
+        resetColor();
         addMouseListener(this);
+    }
+    
+    public void clickAdjacent() {
+        // method clicks all adjacent squares
+        // used for clicking on zeroes
+        MouseEvent e = new MouseEvent(this, 1, 1, 1, 1, 1, 1, false);
+        
+        final int GAME_WIDTH = sw.GAME_WIDTH;
+        final int GAME_HEIGHT = sw.GAME_HEIGHT;
+        int mineSpot = index;
+        
+        
+        // the below is reused from initilizing the numbers so the var names are recycled
+        // left
+        if (mineSpot%GAME_WIDTH != 0) {
+            sw.mineButtons[mineSpot - 1].mouseClicked(e);
+        }
+        // right
+        if (mineSpot%GAME_WIDTH != GAME_WIDTH - 1) {
+            sw.mineButtons[mineSpot + 1].mouseClicked(e);
+        }
+        // up
+        if (mineSpot > GAME_WIDTH - 1) {
+            sw.mineButtons[mineSpot - GAME_WIDTH].mouseClicked(e);
+        }
+        // down
+        if (mineSpot < GAME_WIDTH * (GAME_HEIGHT-1)) {
+            sw.mineButtons[mineSpot + GAME_WIDTH].mouseClicked(e);
+        }
+
+        // up and left
+        if (mineSpot > GAME_WIDTH - 1 && mineSpot%GAME_WIDTH != 0) {
+            sw.mineButtons[mineSpot - GAME_WIDTH - 1].mouseClicked(e);
+        }
+        // up and right
+        if (mineSpot > GAME_WIDTH - 1 && mineSpot%GAME_WIDTH != GAME_WIDTH - 1) {
+            sw.mineButtons[mineSpot - GAME_WIDTH + 1].mouseClicked(e);
+        }
+         // down and left
+        if (mineSpot < GAME_WIDTH * (GAME_HEIGHT-1) && mineSpot%GAME_WIDTH != 0) {
+            sw.mineButtons[mineSpot + GAME_WIDTH - 1].mouseClicked(e);
+        }
+        // down and right
+        if (mineSpot < GAME_WIDTH * (GAME_HEIGHT-1) && mineSpot%GAME_WIDTH != GAME_WIDTH - 1) {
+            sw.mineButtons[mineSpot + GAME_WIDTH + 1].mouseClicked(e);
+        }
+    }
+    
+    public void resetColor() {
+        // set red for mine, blue for zero, yellow otherwise
+        // made a method since this is called more than once
+        switch (this.mine) {
+            case "0":
+                setForeground(Color.BLACK);
+                break;
+            case "1":
+                setForeground(Color.BLUE);
+                break;
+            case "2":
+                setForeground(Color.GREEN.darker());
+                break;
+            case "3":
+                setForeground(Color.RED);
+                break;
+            case "4":
+                setForeground(Color.RED.darker());
+            case "*":
+                setForeground(Color.RED);
+                break;
+        }
     }
     
     @Override
     public void mouseClicked(MouseEvent e) {
+        // set colour for light grey squares
+        Color c = new Color(210,210,210,0);
+        
         // button == 3 is rightclick
-        if (e.getButton() == 3 && "".equals(this.getLabel())) {
+        if (e.getButton() == 3 && "".equals(getLabel())) {
             // flag button
-            this.setLabel("|>");
-        } else if (e.getButton() == 3 && "|>".equals(this.getLabel())) {
+            setForeground(Color.RED);
+            setBackground(c);
+            setLabel("|>");
+        } else if (e.getButton() == 3 && "|>".equals(getLabel())) {
             //unflag
-            this.setLabel("");
+            resetColor();
+            setBackground(Color.WHITE);
+            setLabel("");
         } else {
             // left click
-            this.setLabel(mine);
+            this.resetColor();
+            if (mine.equals("0") && getLabel().equals("")) {
+                setLabel(" ");
+                setBackground(Color.BLACK);
+                clickAdjacent();
+            } else if (mine.equals("0")) {
+                setLabel(" "); 
+                setBackground(Color.BLACK);
+            }
+            else {
+                setLabel(mine);
+                setBackground(c);
+            }
         }
     }
     
