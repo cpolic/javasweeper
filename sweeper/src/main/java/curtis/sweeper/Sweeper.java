@@ -1,6 +1,7 @@
 
 package curtis.sweeper;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Random;
@@ -22,11 +23,11 @@ public class Sweeper extends Frame {
     final int FRAME_WIDTH = BUTTON_WIDTH*GAME_WIDTH+TOPX+30;
     
     // setting button amount
-    SweeperButton mineButtons[] = new SweeperButton[GAME_HEIGHT*GAME_WIDTH];
-    String mines[] = new String[GAME_HEIGHT*GAME_WIDTH];
+    SweeperButton[] mineButtons = new SweeperButton[GAME_HEIGHT*GAME_WIDTH];
+    String[] mines = new String[GAME_HEIGHT*GAME_WIDTH];
     
-    // will be useful for victory checking that this is non temporary
-    int mineIndex[] = new int[MINES];
+    // will be useful for victory checking that this is non-temporary
+    int[] mineIndex = new int[MINES];
     
     // constructor
     Sweeper(String frameText) {
@@ -112,29 +113,29 @@ public class Sweeper extends Frame {
             }
         }
         
-//        // populate the numbers
-//        // this was me figuring out minimum distance to mines instead
-//        // happy with it so it stays
-//        for (int i = 0; i<MINES; i++) {
-//            // find x/y of the mine
-//            int mineSpot = mineIndex[i];
-//            int mineX = mineSpot%GAME_WIDTH;
-//            int mineY = (mineSpot - mineX)/GAME_WIDTH;
-//            int temp;
-//            
-//            // dont look at my triple loop pls
-//            for (int j = 0; j<GAME_HEIGHT; j++) {
-//                for (int k = 0; k<GAME_WIDTH; k++) {
-//                    int index = j * GAME_WIDTH + k;
-//                    temp = Math.abs(mineX - k) + Math.abs(mineY - j);
-//                    if (mines[index] != "*") {
-//                        if (temp < Integer.parseInt(mines[index])) {
-//                            mines[index] = Integer.toString(temp);
-//                        }
-//                    }
-//                }
-//            }
-//        }
+        /* populate the numbers
+        this was me figuring out minimum distance to mines instead
+        happy with it, so it stays
+        for (int i = 0; i<MINES; i++) {
+            // find x/y of the mine
+            int mineSpot = mineIndex[i];
+            int mineX = mineSpot%GAME_WIDTH;
+            int mineY = (mineSpot - mineX)/GAME_WIDTH;
+            int temp;
+
+            // dont look at my triple loop pls
+            for (int j = 0; j<GAME_HEIGHT; j++) {
+                for (int k = 0; k<GAME_WIDTH; k++) {
+                    int index = j * GAME_WIDTH + k;
+                    temp = Math.abs(mineX - k) + Math.abs(mineY - j);
+                    if (mines[index] != "*") {
+                        if (temp < Integer.parseInt(mines[index])) {
+                            mines[index] = Integer.toString(temp);
+                        }
+                    }
+                }
+            }
+        } */
         
         // create the buttons
         int tempX, tempY = TOPY;
@@ -166,24 +167,34 @@ public class Sweeper extends Frame {
     }
     
     public boolean checkVictory() {
-        // return false for an unflagged mine
+        // return false for a not flagged mine
+        for (int index : mineIndex) {
+            if (!mineButtons[index].getText().equals("|>")) {
+                return false;
+            }
+        }
+        // return true if flag count matches mine count else false
+        int check = 0;
+        for (SweeperButton mineButton : mineButtons) {
+            if (mineButton.getText().equals("|>")) {
+                check++;
+            }
+        }
+
+        /*   old version of above utilizing for loops rather than for-each. learning!
         for (int i = 0; i<mineIndex.length; i++) {
-            if (!mineButtons[mineIndex[i]].getLabel().equals("|>")) {
+            if (!mineButtons[mineIndex[i]].getText().equals("|>")) {
                 return false;
             }
         }
         // return true if flag count matches mine count else false
         int check = 0;
         for (int i = 0; i<mineButtons.length; i++) {
-            if (mineButtons[i].getLabel().equals("|>")) {
+            if (mineButtons[i].getText().equals("|>")) {
                 check++;
             }
-        }
-        if (check == MINES) {
-            return true;
-        } else {
-            return false;
-        }
+        }*/
+        return check == MINES;
     }
     
     // runtime
@@ -194,7 +205,7 @@ public class Sweeper extends Frame {
 
 
 
-class SweeperButton extends Button implements MouseListener {
+class SweeperButton extends JButton implements MouseListener {
     Sweeper sw;
     String mine;
     int index;
@@ -287,29 +298,29 @@ class SweeperButton extends Button implements MouseListener {
         Color c = new Color(210,210,210,0);
         
         // button == 3 is rightclick
-        if (e.getButton() == 3 && "".equals(getLabel())) {
+        if (e.getButton() == 3 && "".equals(getText())) {
             // flag button
             setForeground(Color.RED);
             setBackground(c);
-            setLabel("|>");
-        } else if (e.getButton() == 3 && "|>".equals(getLabel())) {
+            setText("|>");
+        } else if (e.getButton() == 3 && "|>".equals(getText())) {
             //unflag
             resetColor();
             setBackground(Color.WHITE);
-            setLabel("");
+            setText("");
         } else {
             // left click
             this.resetColor();
-            if (mine.equals("0") && getLabel().equals("")) {
-                setLabel(" ");
+            if (mine.equals("0") && getText().isEmpty()) {
+                setText(" ");
                 setBackground(Color.BLACK);
                 clickAdjacent();
             } else if (mine.equals("0")) {
-                setLabel(" "); 
+                setText(" ");
                 setBackground(Color.BLACK);
             }
             else {
-                setLabel(mine);
+                setText(mine);
                 setBackground(c);
             }
         }
