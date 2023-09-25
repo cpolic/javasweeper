@@ -8,9 +8,9 @@ import java.util.Random;
 
 /**
  *
- * @author Curtis
+ * @author Curtis Polic
  */
-public class Sweeper extends Frame {
+public class Sweeper extends JPanel {
     
     // initializing values        
     final int BUTTON_HEIGHT = 30, BUTTON_WIDTH = 30;
@@ -30,10 +30,9 @@ public class Sweeper extends Frame {
     int[] mineIndex = new int[MINES];
     
     // constructor
-    Sweeper(String frameText) {
-        
+    Sweeper() {
+
         // super makes frameText accessible anywhere
-        super(frameText);
         String mine;
         
         // init the mines
@@ -152,17 +151,8 @@ public class Sweeper extends Frame {
             tempY += BUTTON_HEIGHT;
         }
         
-        // closing window button
-        addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                System.exit(0);
-            }
-        });
-        
-        // frame settings
-        setLayout(null);
-        setSize(FRAME_WIDTH, FRAME_HEIGHT);
+        // panel settings
+        setLayout(new GridLayout(10,10));
         setVisible(true);
     }
     
@@ -199,7 +189,19 @@ public class Sweeper extends Frame {
     
     // runtime
     public static void main(String[] args) {
-        new Sweeper("Javasweeper");
+        JFrame frame = new JFrame("JavaSweeper");
+        Sweeper sweep = new Sweeper();
+        frame.add(sweep);
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+        frame.setSize(sweep.FRAME_WIDTH, sweep.FRAME_HEIGHT);
+        frame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                System.exit(0);
+            }
+        });
     }
 }
 
@@ -219,6 +221,11 @@ class SweeperButton extends JButton implements MouseListener {
         this.sw.add(this);
         this.mine = min;
         resetColor();
+        setOpaque(true);
+        setBackground(Color.LIGHT_GRAY);
+        setBorder(BorderFactory.createBevelBorder(0));
+        setBorderPainted(true);
+        setFocusPainted(false);
         addMouseListener(this);
     }
     
@@ -286,6 +293,7 @@ class SweeperButton extends JButton implements MouseListener {
                 break;
             case "4":
                 setForeground(Color.RED.darker());
+                break;
             case "*":
                 setForeground(Color.RED);
                 break;
@@ -294,23 +302,23 @@ class SweeperButton extends JButton implements MouseListener {
     
     @Override
     public void mouseClicked(MouseEvent e) {
-        // set colour for light grey squares
-        Color c = new Color(210,210,210,0);
-        
         // button == 3 is rightclick
         if (e.getButton() == 3 && "".equals(getText())) {
             // flag button
             setForeground(Color.RED);
-            setBackground(c);
+            setBackground(Color.WHITE);
             setText("|>");
+            if (sw.checkVictory()) {
+                JOptionPane.showMessageDialog(sw, "Victory!");
+            }
         } else if (e.getButton() == 3 && "|>".equals(getText())) {
             //unflag
             resetColor();
-            setBackground(Color.WHITE);
+            setBackground(Color.LIGHT_GRAY);
             setText("");
         } else {
             // left click
-            this.resetColor();
+            resetColor();
             if (mine.equals("0") && getText().isEmpty()) {
                 setText(" ");
                 setBackground(Color.BLACK);
@@ -321,7 +329,7 @@ class SweeperButton extends JButton implements MouseListener {
             }
             else {
                 setText(mine);
-                setBackground(c);
+                setBackground(Color.WHITE);
             }
         }
     }
