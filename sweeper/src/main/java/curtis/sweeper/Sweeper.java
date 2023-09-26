@@ -131,7 +131,7 @@ public class Sweeper extends JPanel {
         }
         
         // panel settings
-        setLayout(new GridLayout(10,10));
+        setLayout(new GridLayout(game_height,game_width));
         setVisible(true);
     }
     

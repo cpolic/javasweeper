@@ -27,20 +27,81 @@ public class MainMenu extends JPanel {
         easyButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                frame.remove(panel);
+                Sweeper sweep = new Sweeper(10,10,10);
+                frame.add(sweep);
+                frame.pack();
+                frame.setLocationRelativeTo(null);
+                frame.setVisible(true);
+                frame.setSize(sweep.frame_width, sweep.frame_height);
+                frame.addWindowListener(new WindowAdapter() {
+                    @Override
+                    public void windowClosing(WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
             }
         });
         panel.add(easyButton);
 
+        //button for medium mode
+        JButton mediumButton = new JButton("Medium");
+        mediumButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.remove(panel);
+                Sweeper sweep = new Sweeper(16,16,40);
+                frame.add(sweep);
+                frame.pack();
+                frame.setSize(sweep.frame_width, sweep.frame_height);
+                frame.addWindowListener(new WindowAdapter() {
+                    @Override
+                    public void windowClosing(WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
+            }
+        });
+        panel.add(mediumButton);
+
+        //button for hard mode
+        JButton hardButton = new JButton("Hard");
+        hardButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.remove(panel);
+                Sweeper sweep = new Sweeper(16,30,99);
+                frame.add(sweep);
+                frame.pack();
+                frame.setLocationRelativeTo(null);
+                frame.setVisible(true);
+                frame.setSize(sweep.frame_width, sweep.frame_height);
+                frame.addWindowListener(new WindowAdapter() {
+                    @Override
+                    public void windowClosing(WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
+            }
+        });
+        panel.add(hardButton);
+
         //other buttons
-        panel.add(new JButton("Medium"));
-        panel.add(new JButton("Hard"));
-        panel.add(new JButton("High Scores"));
-        panel.add(new JButton("Quit"));
+        panel.add(new JButton("HS (PLACEHOLDER)"));
+        panel.add(new JButton("Opt (PLACEHOLDER)"));
+
+        //quit button
+        JButton quitButton = new JButton("Quit");
+        quitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
+        panel.add(quitButton);
 
         //add the panel to the frame
         frame.getContentPane().add(panel, BorderLayout.CENTER);
-
         frame.setSize(frame_width,frame_height);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
