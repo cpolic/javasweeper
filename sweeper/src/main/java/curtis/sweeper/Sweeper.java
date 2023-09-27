@@ -13,14 +13,16 @@ public class Sweeper extends JPanel {
 
     String[] mines;
     SweeperButton[] mineButtons;
+    MainMenu parent;
     int[] mineIndex;
     int frame_height, frame_width, mine_amount, game_width, game_height;
 
     // constructor
-    Sweeper(int squares_high, int squares_across, int mine_num) {
+    Sweeper(int squares_high, int squares_across, int mine_num, MainMenu mm) {
         // initializing values
         final int BUTTON_HEIGHT = 30, BUTTON_WIDTH = 30;
         final int TOPX = 30, TOPY = 55; //topy needs more due to window bar
+        parent = mm;
         game_height = squares_high;
         game_width = squares_across;
         mine_amount = mine_num;
@@ -134,6 +136,12 @@ public class Sweeper extends JPanel {
         setLayout(new GridLayout(game_height,game_width));
         setVisible(true);
     }
+
+    public void lose() {
+        JOptionPane.showMessageDialog(this, "You hit a mine :(");
+        parent.frame.remove(this);
+        parent.resetGUI();
+    }
     
     public boolean checkVictory() {
         // return false for a not flagged mine
@@ -169,7 +177,7 @@ public class Sweeper extends JPanel {
     // runtime
     public static void main(String[] args) {
         JFrame frame = new JFrame("JavaSweeper");
-        Sweeper sweep = new Sweeper(10,10,10);
+        Sweeper sweep = new Sweeper(10,10,10, null);
         frame.add(sweep);
         frame.pack();
         frame.setLocationRelativeTo(null);
