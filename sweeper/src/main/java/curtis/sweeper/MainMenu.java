@@ -26,65 +26,56 @@ public class MainMenu extends JPanel {
 
         //button for easy mode
         JButton easyButton = new JButton("Easy");
-        easyButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                frame.remove(panel);
-                Sweeper sweep = new Sweeper(10,10,10, mm);
-                frame.add(sweep);
-                frame.pack();
-                frame.setLocationRelativeTo(null);
-                frame.setVisible(true);
-                frame.setSize(sweep.frame_width, sweep.frame_height);
-                frame.addWindowListener(new WindowAdapter() {
-                    @Override
-                    public void windowClosing(WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-            }
+        easyButton.addActionListener(e -> {
+            frame.remove(panel);
+            Sweeper sweep = new Sweeper(10,10,10, mm);
+            frame.add(sweep);
+            frame.pack();
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
+            frame.setSize(sweep.frame_width, sweep.frame_height);
+            frame.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosing(WindowEvent e) {
+                    System.exit(0);
+                }
+            });
         });
         this.add(easyButton);
 
         //button for medium mode
         JButton mediumButton = new JButton("Medium");
-        mediumButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                frame.remove(panel);
-                Sweeper sweep = new Sweeper(16,16,40, mm);
-                frame.add(sweep);
-                frame.pack();
-                frame.setSize(sweep.frame_width, sweep.frame_height);
-                frame.addWindowListener(new WindowAdapter() {
-                    @Override
-                    public void windowClosing(WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-            }
+        mediumButton.addActionListener(e -> {
+            frame.remove(panel);
+            Sweeper sweep = new Sweeper(16,16,40, mm);
+            frame.add(sweep);
+            frame.pack();
+            frame.setSize(sweep.frame_width, sweep.frame_height);
+            frame.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosing(WindowEvent e) {
+                    System.exit(0);
+                }
+            });
         });
         this.add(mediumButton);
 
         //button for hard mode
         JButton hardButton = new JButton("Hard");
-        hardButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                frame.remove(panel);
-                Sweeper sweep = new Sweeper(16,30,99, mm);
-                frame.add(sweep);
-                frame.pack();
-                frame.setLocationRelativeTo(null);
-                frame.setVisible(true);
-                frame.setSize(sweep.frame_width, sweep.frame_height);
-                frame.addWindowListener(new WindowAdapter() {
-                    @Override
-                    public void windowClosing(WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-            }
+        hardButton.addActionListener(e -> {
+            frame.remove(panel);
+            Sweeper sweep = new Sweeper(16,30,99, mm);
+            frame.add(sweep);
+            frame.pack();
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
+            frame.setSize(sweep.frame_width, sweep.frame_height);
+            frame.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosing(WindowEvent e) {
+                    System.exit(0);
+                }
+            });
         });
         this.add(hardButton);
 
@@ -94,12 +85,7 @@ public class MainMenu extends JPanel {
 
         //quit button
         JButton quitButton = new JButton("Quit");
-        quitButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.exit(0);
-            }
-        });
+        quitButton.addActionListener(e -> System.exit(0));
         this.add(quitButton);
 
         //add the panel to the frame
@@ -116,7 +102,7 @@ public class MainMenu extends JPanel {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
-    public static void main(String args[]) {
-        MainMenu menu = new MainMenu();
+    public static void main(String[] args) {
+        new MainMenu();
     }
 }
