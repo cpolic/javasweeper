@@ -65,6 +65,12 @@ public class Sweeper extends JPanel {
         parent.resetGUI();
     }
 
+    public void victory() {
+        JOptionPane.showMessageDialog(this, "Victory!");
+        parent.frame.remove(this);
+        parent.resetGUI();
+    }
+
     public void generate(int first_click_x, int first_click_y) {
         ArrayList<Integer> forced_not_mine = getSafeSquares(first_click_x, first_click_y);
 
