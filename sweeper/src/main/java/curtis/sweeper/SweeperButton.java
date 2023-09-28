@@ -34,40 +34,54 @@ class SweeperButton extends JButton implements MouseListener {
         final int GAME_WIDTH = sw.game_width;
         final int GAME_HEIGHT = sw.game_height;
 
-
-        // the below is reused from initializing the numbers so the var names are recycled
         // left
         if (index%GAME_WIDTH != 0) {
-            sw.mine_buttons[index - 1].mouseClicked(e);
+            if (!sw.mine_buttons[index - 1].getText().equals("|>")) {
+                sw.mine_buttons[index - 1].mouseClicked(e);
+            }
         }
         // right
         if (index%GAME_WIDTH != GAME_WIDTH - 1) {
-            sw.mine_buttons[index + 1].mouseClicked(e);
+            if (!sw.mine_buttons[index + 1].getText().equals("|>")) {
+                sw.mine_buttons[index + 1].mouseClicked(e);
+            }
         }
         // up
-        if (index > GAME_WIDTH - 1) {
-            sw.mine_buttons[index - GAME_WIDTH].mouseClicked(e);
+        if (index/GAME_WIDTH != 0) {
+            if (!sw.mine_buttons[index - GAME_WIDTH].getText().equals("|>")) {
+                sw.mine_buttons[index - GAME_WIDTH].mouseClicked(e);
+            }
         }
         // down
-        if (index < GAME_WIDTH * (GAME_HEIGHT-1)) {
-            sw.mine_buttons[index + GAME_WIDTH].mouseClicked(e);
+        if (index/GAME_WIDTH != GAME_HEIGHT - 1) {
+            if (!sw.mine_buttons[index + GAME_WIDTH].getText().equals("|>")) {
+                sw.mine_buttons[index + GAME_WIDTH].mouseClicked(e);
+            }
         }
 
         // up and left
-        if (index > GAME_WIDTH - 1 && index%GAME_WIDTH != 0) {
-            sw.mine_buttons[index - GAME_WIDTH - 1].mouseClicked(e);
+        if (index%GAME_WIDTH != 0 && index/GAME_WIDTH != 0) {
+            if (!sw.mine_buttons[index - GAME_WIDTH - 1].getText().equals("|>")) {
+                sw.mine_buttons[index - GAME_WIDTH - 1].mouseClicked(e);
+            }
         }
         // up and right
-        if (index > GAME_WIDTH - 1 && index%GAME_WIDTH != GAME_WIDTH - 1) {
-            sw.mine_buttons[index - GAME_WIDTH + 1].mouseClicked(e);
+        if (index%GAME_WIDTH != GAME_WIDTH - 1 && index/GAME_WIDTH != 0) {
+            if (!sw.mine_buttons[index - GAME_WIDTH + 1].getText().equals("|>")) {
+                sw.mine_buttons[index - GAME_WIDTH + 1].mouseClicked(e);
+            }
         }
         // down and left
-        if (index < GAME_WIDTH * (GAME_HEIGHT-1) && index%GAME_WIDTH != 0) {
-            sw.mine_buttons[index + GAME_WIDTH - 1].mouseClicked(e);
+        if (index%GAME_WIDTH != 0 && index/GAME_WIDTH != GAME_HEIGHT - 1) {
+            if (!sw.mine_buttons[index + GAME_WIDTH - 1].getText().equals("|>")) {
+                sw.mine_buttons[index + GAME_WIDTH - 1].mouseClicked(e);
+            }
         }
         // down and right
-        if (index < GAME_WIDTH * (GAME_HEIGHT-1) && index%GAME_WIDTH != GAME_WIDTH - 1) {
-            sw.mine_buttons[index + GAME_WIDTH + 1].mouseClicked(e);
+        if (index%GAME_WIDTH != GAME_WIDTH - 1 && index/GAME_WIDTH != GAME_HEIGHT - 1) {
+            if (!sw.mine_buttons[index + GAME_WIDTH + 1].getText().equals("|>")) {
+                sw.mine_buttons[index + GAME_WIDTH + 1].mouseClicked(e);
+            }
         }
     }
 
@@ -98,55 +112,62 @@ class SweeperButton extends JButton implements MouseListener {
         final int GAME_HEIGHT = sw.game_height;
         int adj_flags = 0;
 
+        // false for flags, mines and blanks
+        if (getText().equals("|>") || getText().equals("*") || getText().isEmpty() || sw.first_click) {
+            return false;
+        }
+
         // left
         if (index%GAME_WIDTH != 0) {
-            if (sw.mine_buttons[index - 1].mine.equals("|>")) {
+            if (sw.mine_buttons[index - 1].getText().equals("|>")) {
                 adj_flags++;
             }
         }
         // right
         if (index%GAME_WIDTH != GAME_WIDTH - 1) {
-            if (sw.mine_buttons[index + 1].mine.equals("|>")) {
+            if (sw.mine_buttons[index + 1].getText().equals("|>")) {
                 adj_flags++;
             }
         }
         // up
         if (index > GAME_WIDTH - 1) {
-            if (sw.mine_buttons[index - GAME_WIDTH].mine.equals("|>")) {
+            if (sw.mine_buttons[index - GAME_WIDTH].getText().equals("|>")) {
                 adj_flags++;
             }
         }
         // down
         if (index < GAME_WIDTH * (GAME_HEIGHT-1)) {
-            if (sw.mine_buttons[index + GAME_WIDTH].mine.equals("|>")) {
+            if (sw.mine_buttons[index + GAME_WIDTH].getText().equals("|>")) {
                 adj_flags++;
             }
         }
 
         // up and left
         if (index > GAME_WIDTH - 1 && index%GAME_WIDTH != 0) {
-            if (sw.mine_buttons[index - GAME_WIDTH - 1].mine.equals("|>")) {
+            if (sw.mine_buttons[index - GAME_WIDTH - 1].getText().equals("|>")) {
                 adj_flags++;
             }
         }
         // up and right
         if (index > GAME_WIDTH - 1 && index%GAME_WIDTH != GAME_WIDTH - 1) {
-            if (sw.mine_buttons[index - GAME_WIDTH + 1].mine.equals("|>")) {
+            if (sw.mine_buttons[index - GAME_WIDTH + 1].getText().equals("|>")) {
                 adj_flags++;
             }
         }
         // down and left
         if (index < GAME_WIDTH * (GAME_HEIGHT-1) && index%GAME_WIDTH != 0) {
-            if (sw.mine_buttons[index + GAME_WIDTH - 1].mine.equals("|>")) {
+            if (sw.mine_buttons[index + GAME_WIDTH - 1].getText().equals("|>")) {
                 adj_flags++;
             }
         }
         // down and right
         if (index < GAME_WIDTH * (GAME_HEIGHT-1) && index%GAME_WIDTH != GAME_WIDTH - 1) {
-            if (sw.mine_buttons[index + GAME_WIDTH + 1].mine.equals("|>")) {
+            if (sw.mine_buttons[index + GAME_WIDTH + 1].getText().equals("|>")) {
                 adj_flags++;
             }
         }
+
+        System.out.println(adj_flags);
 
         return adj_flags == Integer.parseInt(mine);
     }
@@ -167,7 +188,13 @@ class SweeperButton extends JButton implements MouseListener {
             resetColor();
             setBackground(Color.LIGHT_GRAY);
             setText("");
-        } else if (e.getButton() == 1) {
+        } else if (e.getButton() == 2) {
+            // middle click
+            System.out.println("middle");
+            if (checkSatisfied()) {
+                clickAdjacent();
+            }
+        } else {
             // left click
             if (sw.first_click){
                 // first click generates the mines so first click is always a zero
@@ -189,11 +216,6 @@ class SweeperButton extends JButton implements MouseListener {
             } else {
                 setText(mine);
                 setBackground(Color.WHITE);
-            }
-        } else if (e.getButton() == 2) {
-            // middle click
-            if (checkSatisfied()) {
-                clickAdjacent();
             }
         }
     }
