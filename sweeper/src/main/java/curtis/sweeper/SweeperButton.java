@@ -178,7 +178,7 @@ class SweeperButton extends JButton implements MouseListener {
         if (e.getButton() == 3 && "".equals(getText())) {
             // flag button
             setForeground(Color.RED);
-            setBackground(Color.WHITE);
+            setBackground(Color.LIGHT_GRAY);
             setText("|>");
             if (sw.checkVictory()) {
                 sw.victory();
@@ -204,11 +204,11 @@ class SweeperButton extends JButton implements MouseListener {
             resetColor();
             if (mine.equals("0") && getText().isEmpty()) {
                 setText(" ");
-                setBackground(Color.BLACK);
+                setBackground(Color.WHITE);
                 clickAdjacent();
             } else if (mine.equals("0")) {
                 setText(" ");
-                setBackground(Color.BLACK);
+                setBackground(Color.WHITE);
             } else if (mine.equals("*")) {
                 setText(mine);
                 setBackground(Color.WHITE);
