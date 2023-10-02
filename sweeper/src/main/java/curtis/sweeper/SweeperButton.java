@@ -212,7 +212,7 @@ class SweeperButton extends JButton implements MouseListener {
             } else if (mine.equals("*")) {
                 setText(mine);
                 setBackground(Color.WHITE);
-                sw.lose();
+                sw.lose(index);
             } else {
                 setText(mine);
                 setBackground(Color.WHITE);

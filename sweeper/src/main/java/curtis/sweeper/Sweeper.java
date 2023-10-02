@@ -59,7 +59,23 @@ public class Sweeper extends JPanel {
         setVisible(true);
     }
 
-    public void lose() {
+    public void lose(int loss_index) {
+        // "click" the whole board, so you can see how you went
+        for (SweeperButton but : mine_buttons) {
+            // ignore correct flags
+            if (!(but.getText().equals("|>") && but.mine.equals("*"))) {
+                // "click"
+                but.resetColor();
+                // keep the zeroes as blank
+                if (but.mine.equals("0")) {
+                    but.setText("");
+                } else {
+                    but.setText(but.mine);
+                }
+                but.setBackground(Color.WHITE);
+            }
+        }
+        mine_buttons[loss_index].setBackground(Color.RED);
         JOptionPane.showMessageDialog(this, "You hit a mine :(");
         parent.frame.remove(this);
         parent.resetGUI();
