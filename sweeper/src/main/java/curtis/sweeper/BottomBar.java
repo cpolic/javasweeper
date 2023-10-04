@@ -3,6 +3,9 @@ package curtis.sweeper;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.Instant;
 
 public class BottomBar extends JPanel {
 
@@ -10,6 +13,7 @@ public class BottomBar extends JPanel {
     long start_time;
     JLabel clock_value_label;
     Timer timer;
+    DateTimeFormatter date = DateTimeFormatter.ofPattern("HH:mm:ss").withZone(ZoneId.of("Z"));
 
     // constructor
     BottomBar(int win_width) {
@@ -39,7 +43,8 @@ public class BottomBar extends JPanel {
     }
 
     private void updateClock() {
-        clock_value_label.setText(String.valueOf(System.currentTimeMillis() - start_time));
+        Instant ins = Instant.ofEpochMilli(System.currentTimeMillis() - start_time);
+        clock_value_label.setText(date.format(ins));
     }
 
     public void stopClock() {
