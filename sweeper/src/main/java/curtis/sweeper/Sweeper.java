@@ -16,7 +16,7 @@ public class Sweeper extends JPanel {
     SweeperButton[] mine_buttons;
     MainMenu parent;
     int[] mine_index;
-    int frame_height, frame_width, mine_amount, game_width, game_height;
+    int panel_height, panel_width, mine_amount, game_width, game_height;
     boolean first_click;
 
     // constructor
@@ -31,8 +31,8 @@ public class Sweeper extends JPanel {
         mine_amount = mine_num;
 
         // button height * buttons + trim
-        frame_height = BUTTON_HEIGHT*game_height+30;
-        frame_width = BUTTON_WIDTH*game_width+30;
+        panel_height = BUTTON_HEIGHT*game_height+30;
+        panel_width = BUTTON_WIDTH*game_width+30;
 
         // setting button amount
         mine_buttons = new SweeperButton[game_height*game_width];
@@ -77,7 +77,6 @@ public class Sweeper extends JPanel {
         }
         mine_buttons[loss_index].setBackground(Color.RED);
         JOptionPane.showMessageDialog(this, "You hit a mine :(");
-        parent.frame.remove(this);
         parent.resetGUI();
     }
 
@@ -261,7 +260,7 @@ public class Sweeper extends JPanel {
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
-        frame.setSize(sweep.frame_width, sweep.frame_height);
+        frame.setSize(sweep.panel_width, sweep.panel_height);
         frame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
