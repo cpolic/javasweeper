@@ -181,7 +181,7 @@ class SweeperButton extends JButton implements MouseListener {
             setBackground(Color.LIGHT_GRAY);
             setText("|>");
             if (sw.checkVictory()) {
-                sw.victory();
+                sw.parent.informVictory();
             }
         } else if (e.getButton() == 3 && "|>".equals(getText())) {
             //un-flag
@@ -212,7 +212,7 @@ class SweeperButton extends JButton implements MouseListener {
             } else if (mine.equals("*")) {
                 setText(mine);
                 setBackground(Color.WHITE);
-                sw.lose(index);
+                sw.parent.informLoss(index);
             } else {
                 setText(mine);
                 setBackground(Color.WHITE);

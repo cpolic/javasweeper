@@ -9,6 +9,8 @@ public class MainMenu extends JPanel {
     int frame_height, frame_width;
     JFrame frame;
     JPanel container;
+    Sweeper sweep;
+    BottomBar bottom_bar;
 
     MainMenu() {
         //frame var setting
@@ -60,8 +62,8 @@ public class MainMenu extends JPanel {
         frame.remove(this);
 
         // create new GUI elements
-        Sweeper sweep = new Sweeper(across,high,mines, this);
-        BottomBar bb = new BottomBar(sweep.panel_width);
+        sweep = new Sweeper(across,high,mines, this);
+        bottom_bar = new BottomBar(sweep.panel_width);
 
         // container for GUI elements
         container = new JPanel();
@@ -74,9 +76,9 @@ public class MainMenu extends JPanel {
         sweep.setPreferredSize(new Dimension(sweep.panel_width, sweep.panel_height));
 
         // sizing setup
-        bb.setMinimumSize(new Dimension(bb.panel_width, bb.panel_height));
-        bb.setMaximumSize(new Dimension(bb.panel_width, bb.panel_height));
-        bb.setPreferredSize(new Dimension(bb.panel_width, bb.panel_height));
+        bottom_bar.setMinimumSize(new Dimension(bottom_bar.panel_width, bottom_bar.panel_height));
+        bottom_bar.setMaximumSize(new Dimension(bottom_bar.panel_width, bottom_bar.panel_height));
+        bottom_bar.setPreferredSize(new Dimension(bottom_bar.panel_width, bottom_bar.panel_height));
 
         // constraints for GUI elements
         constraints.gridwidth = GridBagConstraints.REMAINDER;
@@ -84,25 +86,35 @@ public class MainMenu extends JPanel {
         constraints.weighty = sweep.game_height;
         layout.setConstraints(sweep, constraints);
         constraints.weighty = 2;
-        layout.setConstraints(bb, constraints);
+        layout.setConstraints(bottom_bar, constraints);
 
         // add it all to container
         container.setLayout(layout);
         container.add(sweep);
-        container.add(bb);
+        container.add(bottom_bar);
 
         // pop it all in the frame and set it up
         frame.add(container);
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
-        frame.setSize(sweep.panel_width, sweep.panel_height + bb.panel_height);
+        frame.setSize(sweep.panel_width, sweep.panel_height + bottom_bar.panel_height);
         frame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
                 System.exit(0);
             }
         });
+    }
+
+    public void informLoss(int loss_index) {
+        bottom_bar.stopClock();
+        sweep.lose(loss_index);
+    }
+
+    public void informVictory() {
+        bottom_bar.stopClock();
+        sweep.victory();
     }
 
     public void resetGUI() {
@@ -112,6 +124,7 @@ public class MainMenu extends JPanel {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
+
     public static void main(String[] args) {
         new MainMenu();
     }
