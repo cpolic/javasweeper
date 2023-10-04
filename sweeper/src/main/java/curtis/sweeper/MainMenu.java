@@ -25,23 +25,17 @@ public class MainMenu extends JPanel {
 
         //button for easy mode
         JButton easyButton = new JButton("Easy");
-        easyButton.addActionListener(e -> {
-            newGame(10,10,10);
-        });
+        easyButton.addActionListener(e -> newGame(10,10,10));
         this.add(easyButton);
 
         //button for medium mode
         JButton mediumButton = new JButton("Medium");
-        mediumButton.addActionListener(e -> {
-            newGame(16,16,40);
-        });
+        mediumButton.addActionListener(e -> newGame(16,16,40));
         this.add(mediumButton);
 
         //button for hard mode
         JButton hardButton = new JButton("Hard");
-        hardButton.addActionListener(e -> {
-            newGame(16,30,99);
-        });
+        hardButton.addActionListener(e -> newGame(16,30,99));
         this.add(hardButton);
 
         //other buttons
