@@ -16,7 +16,7 @@ public class Sweeper extends JPanel {
     SweeperButton[] mine_buttons;
     MainMenu parent;
     int[] mine_index;
-    int panel_height, panel_width, mine_amount, game_width, game_height;
+    int panel_height, panel_width, mine_amount, game_width, game_height, flags;
     boolean first_click;
 
     // constructor
@@ -24,6 +24,7 @@ public class Sweeper extends JPanel {
         // initializing values
         final int BUTTON_HEIGHT = 30, BUTTON_WIDTH = 30;
         final int TOPX = 30, TOPY = 55; //topy needs more due to window bar
+        flags = 0;
         parent = mm;
         first_click = true;
         game_height = squares_high;

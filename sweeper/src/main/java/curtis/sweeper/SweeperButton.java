@@ -167,8 +167,6 @@ class SweeperButton extends JButton implements MouseListener {
             }
         }
 
-        System.out.println(adj_flags);
-
         return adj_flags == Integer.parseInt(mine);
     }
 
@@ -180,6 +178,8 @@ class SweeperButton extends JButton implements MouseListener {
             setForeground(Color.RED);
             setBackground(Color.LIGHT_GRAY);
             setText("|>");
+            sw.flags++;
+            sw.parent.informFlagUpdate(sw.flags);
             if (sw.checkVictory()) {
                 sw.parent.informVictory();
             }
@@ -188,9 +188,10 @@ class SweeperButton extends JButton implements MouseListener {
             resetColor();
             setBackground(Color.LIGHT_GRAY);
             setText("");
+            sw.flags--;
+            sw.parent.informFlagUpdate(sw.flags);
         } else if (e.getButton() == 2) {
             // middle click
-            System.out.println("middle");
             if (checkSatisfied()) {
                 clickAdjacent();
             }

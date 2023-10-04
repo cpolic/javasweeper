@@ -65,6 +65,9 @@ public class MainMenu extends JPanel {
         sweep = new Sweeper(across,high,mines, this);
         bottom_bar = new BottomBar(sweep.panel_width);
 
+        // pass mine amount to bottom bar
+        informFlagUpdate(0);
+
         // container for GUI elements
         container = new JPanel();
         GridBagLayout layout = new GridBagLayout();
@@ -115,6 +118,10 @@ public class MainMenu extends JPanel {
     public void informVictory() {
         bottom_bar.stopClock();
         sweep.victory();
+    }
+
+    public void informFlagUpdate(int flags) {
+        bottom_bar.flags_value_label.setText(String.valueOf(sweep.mine_amount - flags));
     }
 
     public void resetGUI() {
