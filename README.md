@@ -16,8 +16,6 @@ Current Features:
 
 
 Planned Features:
-- Timer
-- Flag counter
 - High Scores
 - Options Menu
 	- Colour Schemes (Dark Mode)
