@@ -3,7 +3,7 @@ Minesweeper made in java
 
 Author: Curtis Polic
 
-Current release version is v0.2
+Current release version is v0.3
 
 Current Features:
 - Basic minesweeping
